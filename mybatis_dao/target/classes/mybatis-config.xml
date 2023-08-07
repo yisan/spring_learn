@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+    <!--配置别名-->
+    <typeAliases>
+        <typeAlias alias="user" type="com.bingo.learn.domain.User"/>
+    </typeAliases>
+    <!--配置数据源环境-->
+    <!--默认使用的环境-->
+    <environments default="development">
+        <!--配置环境-->
+        <environment id="development">
+            <!--事务管理器类型 指定用的哪种-->
+            <transactionManager type="JDBC"/>
+            <!--配置数据源（连接池）-->
+            <dataSource type="POOLED">
+                <!--配置连接数据库的基本信息-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件 -->
+    <mappers>
+        <mapper resource="com/bingo/learn/mapper/UserMapper.xml"/>
+        <package name="com.bingo.learn.mapper"/>
+    </mappers>
+</configuration>

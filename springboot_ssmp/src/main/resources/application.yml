@@ -1,0 +1,21 @@
+server:
+  port: 80
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/mp?serverTimezone=UTC
+      username: root
+      password: Bingoing
+  # 设置不参与热部署的文件或文件夹
+  devtools:
+    restart:
+      exclude: static/**,public/**
+
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: mp_ # 配置数据表前缀
+      id-type: auto # id生成规则 -- 自增
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # MP的调试日志 ，标准模式

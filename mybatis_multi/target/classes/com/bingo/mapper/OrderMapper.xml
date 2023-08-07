@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingo.learn.mapper.OrderMapper">
+<resultMap id="orderMap" type="order">
+    <!--手动指定字段和实体属性的映射关系-->
+    <!--column:数据表的字段名称-->
+    <!--property:实体的属性名称-->
+    <!--查询出来的结果要与实体字段一一对应-->
+    <!--id 用来配置主键-->
+    <id column="oid" property="id"/>
+
+    <result column="ordertime" property="ordertime"/>
+    <result column="total" property="total"/>
+    <!--<result column="uid" property="user.id"/>-->
+    <!--<result column="name" property="user.name"/>-->
+    <!--<result column="password" property="user.password"/>-->
+    <!--<result column="address" property="user.address"/>-->
+    <!--<result column="birthday" property="user.birthday"/>-->
+    <!--property: 当前实体Order中的属性名称 javaType: 当前实体Order中属性的类型（User）-->
+    <association property="user" javaType="user">
+        <id column="uid" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="address" property="address"/>
+        <result column="birthday" property="birthday"/>
+    </association>
+</resultMap>
+<select id="findAll" resultMap="orderMap">
+    SELECT *,o.id oid from orders o LEFT JOIN  user u ON uid = u.id
+</select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- 组件扫描：扫描service和mapper-->
+    <context:component-scan base-package="com.bingo.learn">
+        <!--排除controller的扫描，交由spring-mvc来管理-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--将sqlSessionFactory的创建交给spring容器来管理 -->
+    <!--加载 mybatis 核心文件-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+        <property name="dataSource" ref="druidDataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--如果Mapper.xml 和 Mapper.class所在的目录名一样（都是com.bingo.learn.mapper），而且文件名相同(都是AccountMapper)，-->
+        <!--那么Spring 扫描到Mapper.class的同时会自动扫描同名的Mapper.xml并装配到Mapper.class-->
+        <!--如果不一致，那么必须配置mapperLocations 指定具体的mapper.xml所在路径-->
+        <!--<property name="mapperLocations"   value="classpath*:com/bingo/mapper/*Mapper.xml"/>-->
+        <!--<property name="mapperLocations"   value="classpath:com/bingo/learn/mapper/AccountMapper.xml"/>-->
+    </bean>
+    <!--配置sessionFactory，所需的数据源配置和mapper映射迁移到这里-->
+    <!--加载propeties文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--配置数据源信息-->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--将mybatis-config.xml中的mapper映射配置迁移到这里-->
+    <!--扫描mapper所在的包，为mapper创建实现类，并将实现放入spring容器，业务层直接从容器注入对应的mapper进行操作-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bingo.learn.mapper"/>
+    </bean>
+    <!--声明式事务控制-->
+    <!--平台事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="druidDataSource"/>
+    </bean>
+    <!--配置事务增强-->
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--事务的aop织入-->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bingo.learn.service.impl.*.*(..))"/>
+    </aop:config>
+</beans>

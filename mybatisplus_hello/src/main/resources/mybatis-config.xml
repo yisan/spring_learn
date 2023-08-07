@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.bingo.learn.domain.User" alias="user"/>
+    </typeAliases>
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mp?useUnicode=true&amp;charsetEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;userSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="Bingoing"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/bingo/learn/mapper/userMapper.xml"/>
+    </mappers>
+</configuration>

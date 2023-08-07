@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置mvc注解驱动-->
+    <mvc:annotation-driven/>
+    <!--配置视图解析器  影响setViewName-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--静态资源开放-->
+    <mvc:default-servlet-handler/>
+    <!--组件扫描，扫描controller-->
+    <context:component-scan base-package="com.bingo.learn.controller"/>
+    <!--自定义异常处理器-->
+    <bean class="com.bingo.learn.resolver.MyExceptionResolver"/>
+    <!--配置异常处理器-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!--默认的异常映射的错误视图-->
+        <property name="defaultErrorView" value="error"/>
+        <property name="exceptionMappings">
+            <map>
+                <entry key="java.lang.ClassCastException" value="error1"/>
+                <entry key="com.bingo.learn.exception.MyException" value="error2"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

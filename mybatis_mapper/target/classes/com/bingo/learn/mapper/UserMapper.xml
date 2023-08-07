@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bingo.learn.mapper.UserMapper">
+    <!--<select id="findByCondition" parameterType="user" resultType="user">-->
+    <!--    select * from user where id=#{id} and name=#{name} and address=#{address}-->
+    <!--</select>-->
+    <!--sql语句片段的抽取-->
+    <sql id="selectUser">select * from user</sql>
+    <select id="findByCondition" parameterType="user" resultType="user">
+        <!--<include refid="selectUser"/>-->
+        select * from user
+        <where>
+            <if test="id!=0">
+                and id = #{id}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+            <if test="password!=null">
+                and password = #{password}
+            </if>
+            <if test="address!=null">
+                and address = #{address}
+            </if>
+        </where>
+
+    </select>
+    <select id="findByIds" parameterType="list" resultType="user">
+        <include refid="selectUser"/>
+        <where>
+            -- collection代表什么类型的集合
+            -- open , separator , close 在sql语句的哪里开始填入参数和结束填入，以及用什么分隔符分隔参数
+            <foreach collection="list" open="id in(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>

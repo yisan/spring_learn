@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--定义别名-->
+    <typeAliases>
+        <!--单个设置-->
+        <!--<typeAlias type="com.bingo.learn.domain.Account" alias="account"/>-->
+        <!--批量设置-->
+        <!--以该路径包名下的所有类的实体对象会以自身类名称首字母小写作为其别名 Account.java 以 account为别名-->
+        <package name="com.bingo.learn.domain" />
+    </typeAliases>
+
+</configuration>

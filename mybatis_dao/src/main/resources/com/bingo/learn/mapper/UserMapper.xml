@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--规范1 :namespace 对应Dao接口的全限定名，必须一致-->
+<mapper namespace="com.bingo.learn.mapper.UserMapper">
+    <!--规范2 :id 对应Dao接口中的方法名，必须一致-->
+    <!--规范3 :parameterType 对应Dao接口中的方法参数类型，必须一致-->
+    <!--规范4 :resultType 对应Dao接口中的方法输出结果类型，必须一致-->
+    <select id="findById" resultType="user" parameterType="int">
+        select * from user where id = #{id}
+    </select>
+    <update id="update">
+        update user set name = #{arg1} ,password = #{arg2}, address=#{arg3} where id = #{arg0}
+    </update>
+</mapper>

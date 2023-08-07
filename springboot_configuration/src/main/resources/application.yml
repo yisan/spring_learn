@@ -1,0 +1,16 @@
+
+servers:
+  ip: 127.0.0.1
+  port: 8080
+
+user:
+  uname: "法外狂徒无恶不作"
+  age: 20
+  email: bingo@163.com
+
+
+data_source:
+  driverClassName: com.mysql.jdbc.Driver333
+
+test:
+  prop: 111
